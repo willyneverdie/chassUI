@@ -1,15 +1,14 @@
 <html>
 <head>
-<script src="https://unpkg.com/react@15/dist/react.js"></script>
-<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-<script src="testReact.js" type="text/jsx"></script>
-<link rel="stylesheet" href="testReact.css" >
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+  
 </head>
 
 <body>
 
 <!-- DIVS --> 
+<div id="react-container" class="board-parent"></div>
 <div id="container"></div>
 <div id="root"></div>
 <div id="board" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
@@ -37,6 +36,8 @@
       </script>
 
     
+    <script type="text/javascript" src="bundleWP.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
     
 </body>
 
