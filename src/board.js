@@ -64,8 +64,8 @@ class Board extends Component {
     //const [knightX, knightY] = this.state.piecePos;
 
     //Reading the move from the STORE
-    console.log('Board()->render(props)->store.getState().boardmove:'+store.getState().boardmove);
-    const [knightX, knightY] = store.getState().boardmove;
+    console.log('Board()->render(props)->store.getState().boardmove:',store.getState().boardmove.get("B1"));
+    //const [knightX, knightY] = store.getState().boardmove;
 
     //console.log('Board()->render(props)->knightX, knightY:'+this.props.piecePosition);
     //console.log('Board()->render(state)->knightX, knightY:'+this.state.piecePos);
@@ -90,6 +90,9 @@ class Board extends Component {
                   }
     ];
 
+
+    //let testmap = new Map([[ "B1", <Knight color='white'/> ],[ "B2", <Pawn color='black'/> ]]);
+    //console.log("test map:",testmap.get("G1").props);
 
     let myMap = new Map([
      /* [ "A1", <Rook color='white'/> ],
@@ -129,9 +132,12 @@ class Board extends Component {
     ]);
 
 
-    console.log(myMap);
-    myMap.set(knightX+knightY,<Knight code="kn"/>);
-    myMap.set("B2",<Pawn code="p"/>);
+
+    //myMap.set(knightX+knightY,<Knight code="kn"/>);
+    //myMap.set("B2",<Pawn code="p"/>);
+    //get board from the store
+    myMap = store.getState().boardmove;
+    console.log("myMap:",myMap);
     //codes for pieces
     //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
 
@@ -157,8 +163,6 @@ class Board extends Component {
             console.log("valor es:"+myMap.get(col[j-1]+i).props.code);
             nombrePieza=myMap.get(col[j-1]+i).props.code;
           }
-
-
 
           squares.push(
             <BoardSquare color={color} coord={col[j-1]+i} piece={nombrePieza} >

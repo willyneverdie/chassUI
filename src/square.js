@@ -31,18 +31,24 @@ class Square extends Component {
 	    	backgroundColor: fill,
 	    	key: key
 	        }}
-	        onClick={() => this.handleSquareClick(coord)}>
+	        onClick={() => this.handleSquareClick(coord)}
+          onMouseDown={() => this.handleSquareMouseDownClick(coord)}>
 	        {this.props.children}
 	    </div>
         )
   }
 
-
+  handleSquareMouseDownClick(toX) {
+   window.actualposition = toX;
+   window.originposition = toX;
+   console.log('handleSquareMouseDownClick:',toX);
+  }
 
 	 handleSquareClick(toX) {
 	 	//moveKnight(toX);
 	 	console.log('handleSquareClick:',toX);
     //console.log(this.props.move);
+
     if(test(toX)){
         this.props.move(toX);
     };

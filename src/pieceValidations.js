@@ -17,8 +17,32 @@ export function init_observe(receive) {
   console.log('store:', store.getState());
 	//receive([ x , y ], store);
   //window.actualposition = x + y;
-  window.actualposition = store.getState().boardmove[0] + store.getState().boardmove[1];
+  window.actualposition = store.getState().boardmove[0] + store.getState().boardmove[1] ;
   receive(store.getState().boardmove, store);
+
+}
+
+
+export function validatePawnMove(xy) {
+  console.log('validatePawnMove()');
+	console.log('validatePawnMove()->click:'+xy);
+  console.log('validatePawnMove()->window.actualposition :'+window.actualposition );
+
+  if (window.actualposition != undefined)
+	{
+		var movement = validateMove(window.actualposition, xy);
+		console.log('moveKnight()->movement:'+movement);
+	}
+
+	//receive([ xy[0] , xy[1] ]);
+	if(movement){
+		  window.actualposition = xy;
+	    console.log('moveKnight()->xy1:'+xy);
+	    var a  = xy.split('');
+      //test([ a[0] , a[1] ]);
+	}
+
+  return movement;
 
 }
 

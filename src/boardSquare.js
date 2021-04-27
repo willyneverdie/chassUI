@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Square from './Square';
 
 import { moveKnight } from './Game';
+import { validatePawnMove } from './PieceValidations';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 import { DragDropContext } from 'react-dnd';
@@ -24,14 +25,19 @@ import {Increment,Decrement,Move} from './actions/Action';
       //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
       switch (code) {
         case "kn":
-            if(moveKnight(props.coord))
             {
-              console.log('drop',props.coord);
-              props.move(props.coord);
+              console.log('knight');
+              if(moveKnight(props.coord)){
+                props.move(props.coord);
+              }
             };
             break;
         case "p":
             console.log("pawn");
+            if(validatePawnMove(props.coord)){
+              console.log("pawn validated");
+            }
+
             break;
         case "r":
             console.log("rook");
