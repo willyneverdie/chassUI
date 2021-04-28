@@ -7,13 +7,13 @@ import Pawn from '../pieces/Pawn';
 
 
 //const boardReducer = (state=['B','1'], action) => {
-const boardReducer = (state=new Map([[ "B1", <Knight code="kn"/> ],[ "B2", <Pawn code="p"/> ]]), action) => {
+const boardReducer = (state=new Map([[ "B1", <Knight code="kn"/> ],[ "B2", <Pawn code="p"/> ], [ "A1", <Rook color='white'/> ]]), action) => {
  console.log('inside boardReducer');
- console.log('inside boardReducer move 2', state);
+ console.log('inside boardReducer move', state);
   switch(action.type){
     case 'MOVE':
       console.log('inside boardReducer move');
-      console.log('inside boardReducer move 2', state);
+      console.log('inside boardReducer move', state);
       console.log('inside boardReducer move action.payload:'+action.payload);
       console.log('inside boardReducer move window.originposition', window.originposition);
 

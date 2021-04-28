@@ -36,6 +36,7 @@ import {Increment,Decrement,Move} from './actions/Action';
             console.log("pawn");
             if(validatePawnMove(props.coord)){
               console.log("pawn validated");
+              props.move(props.coord);
             }
 
             break;

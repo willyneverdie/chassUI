@@ -25,20 +25,32 @@ export function init_observe(receive) {
 
 export function validatePawnMove(xy) {
   console.log('validatePawnMove()');
-	console.log('validatePawnMove()->click:'+xy);
-  console.log('validatePawnMove()->window.actualposition :'+window.actualposition );
+	console.log('validatePawnMove()->drop:'+xy);
+  console.log('validatePawnMove()->window.originposition :'+window.originposition );
+  var movement = false;
 
-  if (window.actualposition != undefined)
+  if (xy != undefined)
 	{
-		var movement = validateMove(window.actualposition, xy);
-		console.log('moveKnight()->movement:'+movement);
+    let oriPosicion = window.originposition.substring(1);
+    let desPosicion = xy.substring(1);
+
+    console.log("validatePawnMove->desPosicion:"+desPosicion);
+    console.log("validatePawnMove->oriPosicion:"+oriPosicion);
+
+    if(oriPosicion == 2){
+      if( desPosicion == 3 || desPosicion == 4) movement = true;
+    }
+    else {
+      if ( desPosicion - oriPosicion == 1) movement = true;
+    }
+
+		console.log('validatePawnMove->movement:'+movement);
 	}
 
-	//receive([ xy[0] , xy[1] ]);
 	if(movement){
-		  window.actualposition = xy;
-	    console.log('moveKnight()->xy1:'+xy);
-	    var a  = xy.split('');
+		  //window.actualposition = xy;
+	    //console.log('moveKnight()->xy1:'+xy);
+	    //var a  = xy.split('');
       //test([ a[0] , a[1] ]);
 	}
 
