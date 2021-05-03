@@ -166,7 +166,7 @@ class Board extends Component {
 
           squares.push(
             <BoardSquare color={color} coord={col[j-1]+i} piece={nombrePieza} >
-              {myMap.get(col[j-1]+i)}{col[j-1]}
+              {myMap.get(col[j-1]+i)}
             </BoardSquare>
         );
           color = !color

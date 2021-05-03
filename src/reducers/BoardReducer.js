@@ -1,13 +1,16 @@
+import initialBoard   from '../data/initialState';
 import Knight from '../pieces/Knight';
 import Rook from '../pieces/Rook';
 import Bishop from '../pieces/Bishop';
 import Queen from '../pieces/Queen';
 import King from '../pieces/King';
 import Pawn from '../pieces/Pawn';
+//knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
 
-
+console.log('initialBoard:',initialBoard  );
+//new Map([[ "B1", <Knight code="kn"/> ],[ "B2", <Pawn code="p"/> ], [ "A1", <Rook code='r' color='white'/> ], [ "C1", <Bishop code='b' color='white'/> ], [ "D1", <Queen code='q' color='white'/> ], [ "E1", <King code='ki' color='white'/> ]])
 //const boardReducer = (state=['B','1'], action) => {
-const boardReducer = (state=new Map([[ "B1", <Knight code="kn"/> ],[ "B2", <Pawn code="p"/> ], [ "A1", <Rook color='white'/> ]]), action) => {
+const boardReducer = (state=initialBoard, action) => {
  console.log('inside boardReducer');
  console.log('inside boardReducer move', state);
   switch(action.type){

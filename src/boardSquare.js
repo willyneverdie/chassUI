@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Square from './Square';
 
 import { moveKnight } from './Game';
-import { validatePawnMove } from './PieceValidations';
+import { validatePawnMove, validateRookMove, validateBishopMove, validateQueenMove, validateKingMove } from './PieceValidations';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 import { DragDropContext } from 'react-dnd';
@@ -20,7 +20,8 @@ import {Increment,Decrement,Move} from './actions/Action';
       console.log('boardSquare drop',props);
       // Obtain the dragged item
       const item = monitor.getItem();
-      console.log("Item:",item.code);
+      console.log("Item:",item);
+      console.log("Item:",item.color);
       const code = item.code;
       //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
       switch (code) {
@@ -34,7 +35,7 @@ import {Increment,Decrement,Move} from './actions/Action';
             break;
         case "p":
             console.log("pawn");
-            if(validatePawnMove(props.coord)){
+            if(validatePawnMove(props.coord, item.color )){
               console.log("pawn validated");
               props.move(props.coord);
             }
@@ -42,15 +43,31 @@ import {Increment,Decrement,Move} from './actions/Action';
             break;
         case "r":
             console.log("rook");
+            if(validateRookMove(props.coord)){
+              console.log("rook validated");
+              props.move(props.coord);
+            }
             break;
         case "q":
             console.log("queen");
+            if(validateQueenMove(props.coord)){
+              console.log("queen validated");
+              props.move(props.coord);
+            }
             break;
         case "ki":
             console.log("king");
+            if(validateKingMove(props.coord)){
+              console.log("king validated");
+              props.move(props.coord);
+            }
             break;
         case "b":
             console.log("bishop");
+            if(validateBishopMove(props.coord)){
+              console.log("bishop validated");
+              props.move(props.coord);
+            }
             break;
         default:
       }

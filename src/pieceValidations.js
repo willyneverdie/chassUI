@@ -4,26 +4,183 @@ import Board from './Board';
 import store from './store/Store';
 import {Provider} from 'react-redux';
 
-export function init_observe(receive) {
 
-  console.log('init_observe');
-  //setInterval(() => receive([String.fromCharCode(64 + Math.floor(Math.random() * 8)+1),
-  //(Math.floor(Math.random() * 7.5 ) ) + 1 ]), 800);
+export function validateKingMove(xy){
+  console.log('validateKingMove()');
+	console.log('validateKingMove()->drop:'+xy);
+  console.log('validateKingMove()->window.originposition :'+window.originposition );
+  var movement = false;
 
-	let x = String.fromCharCode(64 + Math.floor(Math.random() * 8)+1);
-	let y = (Math.floor(Math.random() * 7.5 ) ) + 1;
+  let totalColumns = 8;
+  let columnsArray = ['A','B','C','D','E','F','G','H'];
+
+    if (xy != undefined)
+  	{
+      let oriPosicion = window.originposition.substring(1);
+      let desPosicion = xy.substring(1);
+
+      let oriColumn = window.originposition.substring(0,1);
+      let desColumn = xy.substring(0,1);
+
+      console.log("validateKingMove->desPosicion:"+desPosicion);
+      console.log("validateKingMove->oriPosicion:"+oriPosicion);
+
+      console.log("validateKingMove->desPosicion:"+desColumn);
+      console.log("validateKingMove->oriPosicion:"+oriColumn);
+
+      let oriIndex = columnsArray.findIndex(k => k == oriColumn) +1;
+      let desIndex = columnsArray.findIndex(k => k == desColumn) +1;
+      let diffCol = Math.abs(oriIndex - desIndex);
+      let diffFil = Math.abs(oriPosicion - desPosicion);
+
+      console.log("validateKingMove->oriIndex:"+oriIndex);
+      console.log("validateKingMove->desIndex:"+desIndex);
+      console.log("validateKingMove->diffCol:"+diffCol);
+      console.log("validateKingMove->diffFil:"+diffFil);
+
+      //Same column
+      if( oriColumn == desColumn && diffFil == 1) movement = true;
+
+      //different column
+      if( oriColumn != desColumn){
+        if ((diffFil == 0 || diffFil == 1) && (diffCol == 0 || diffCol == 1)) movement = true;
+      }
 
 
-  console.log('store:', store.getState());
-	//receive([ x , y ], store);
-  //window.actualposition = x + y;
-  window.actualposition = store.getState().boardmove[0] + store.getState().boardmove[1] ;
-  receive(store.getState().boardmove, store);
+    }
+
+    return movement;
 
 }
 
 
-export function validatePawnMove(xy) {
+export function validateQueenMove(xy){
+  console.log('validateQueenMove()');
+	console.log('validateQueenMove()->drop:'+xy);
+  console.log('validateQueenMove()->window.originposition :'+window.originposition );
+  var movement = false;
+
+  let totalColumns = 8;
+  let columnsArray = ['A','B','C','D','E','F','G','H'];
+
+    if (xy != undefined)
+  	{
+      let oriPosicion = window.originposition.substring(1);
+      let desPosicion = xy.substring(1);
+
+      let oriColumn = window.originposition.substring(0,1);
+      let desColumn = xy.substring(0,1);
+
+      console.log("validateQueenMove->desPosicion:"+desPosicion);
+      console.log("validateQueenMove->oriPosicion:"+oriPosicion);
+
+      console.log("validateQueenMove->desPosicion:"+desColumn);
+      console.log("validateQueenMove->oriPosicion:"+oriColumn);
+
+      let oriIndex = columnsArray.findIndex(k => k == oriColumn) +1;
+      let desIndex = columnsArray.findIndex(k => k == desColumn) +1;
+      let diffCol = Math.abs(oriIndex - desIndex);
+      let diffFil = Math.abs(oriPosicion - desPosicion);
+
+      console.log("validateQueenMove->oriIndex:"+oriIndex);
+      console.log("validateQueenMove->desIndex:"+desIndex);
+      console.log("validateQueenMove->diffCol:"+diffCol);
+      console.log("validateQueenMove->diffFil:"+diffFil);
+
+      if( oriColumn != desColumn){
+        if (diffCol == diffFil) movement = true;
+      }
+
+      if( oriColumn == desColumn ) movement = true;
+      else {
+        if(oriPosicion == desPosicion) movement = true;
+      }
+    }
+
+    return movement;
+
+}
+
+
+
+export function validateBishopMove(xy){
+  console.log('validateBishopMove()');
+	console.log('validateBishopMove()->drop:'+xy);
+  console.log('validateBishopMove()->window.originposition :'+window.originposition );
+  var movement = false;
+
+  let totalColumns = 8;
+  let columnsArray = ['A','B','C','D','E','F','G','H'];
+
+    if (xy != undefined)
+  	{
+      let oriPosicion = window.originposition.substring(1);
+      let desPosicion = xy.substring(1);
+
+      let oriColumn = window.originposition.substring(0,1);
+      let desColumn = xy.substring(0,1);
+
+      console.log("validateBishopMove->desPosicion:"+desPosicion);
+      console.log("validateBishopMove->oriPosicion:"+oriPosicion);
+
+      console.log("validateBishopMove->desPosicion:"+desColumn);
+      console.log("validateBishopMove->oriPosicion:"+oriColumn);
+
+      let oriIndex = columnsArray.findIndex(k => k == oriColumn) +1;
+      let desIndex = columnsArray.findIndex(k => k == desColumn) +1;
+      let diffCol = Math.abs(oriIndex - desIndex);
+      let diffFil = Math.abs(oriPosicion - desPosicion);
+
+      console.log("validateBishopMove->oriIndex:"+oriIndex);
+      console.log("validateBishopMove->desIndex:"+desIndex);
+      console.log("validateBishopMove->diffCol:"+diffCol);
+      console.log("validateBishopMove->diffFil:"+diffFil);
+
+      if( oriColumn != desColumn){
+        if (diffCol == diffFil) movement = true;
+      }
+    }
+
+
+
+    return movement;
+
+}
+
+
+
+export function validateRookMove(xy){
+  console.log('validateRookMove()');
+	console.log('validateRookMove()->drop:'+xy);
+  console.log('validateRookMove()->window.originposition :'+window.originposition );
+  var movement = false;
+
+
+    if (xy != undefined)
+  	{
+      let oriPosicion = window.originposition.substring(1);
+      let desPosicion = xy.substring(1);
+
+      let oriColumn = window.originposition.substring(0,1);
+      let desColumn = xy.substring(0,1);
+
+      console.log("validateRookMove->desPosicion:"+desPosicion);
+      console.log("validateRookMove->oriPosicion:"+oriPosicion);
+
+      console.log("validateRookMove->desPosicion:"+desColumn);
+      console.log("validateRookMove->oriPosicion:"+oriColumn);
+
+      if(oriColumn == desColumn) movement = true;
+      else {
+        if(oriPosicion == desPosicion) movement = true;
+      }
+    }
+
+    return movement;
+
+}
+
+export function validatePawnMove(xy, color) {
   console.log('validatePawnMove()');
 	console.log('validatePawnMove()->drop:'+xy);
   console.log('validatePawnMove()->window.originposition :'+window.originposition );
@@ -37,12 +194,23 @@ export function validatePawnMove(xy) {
     console.log("validatePawnMove->desPosicion:"+desPosicion);
     console.log("validatePawnMove->oriPosicion:"+oriPosicion);
 
+  if(color=='white'){
     if(oriPosicion == 2){
       if( desPosicion == 3 || desPosicion == 4) movement = true;
     }
     else {
       if ( desPosicion - oriPosicion == 1) movement = true;
     }
+  }
+
+  if(color=='black'){
+    if(oriPosicion == 7){
+      if( desPosicion == 6 || desPosicion == 5) movement = true;
+    }
+    else {
+      if ( oriPosicion - desPosicion == 1) movement = true;
+    }
+  }
 
 		console.log('validatePawnMove->movement:'+movement);
 	}
@@ -82,36 +250,6 @@ export function moveKnight(xy) {
 
 }
 
-export function observe(xy) {
-  console.log('observe()');
-	console.log('observe()->click:'+xy);
-  console.log('observe()->click window.actualposition:'+window.actualposition);
-
-  //What is the piece been moved?
-
-
-
-  if (window.actualposition != undefined)
-	{
-		var movement = validateMove(window.actualposition, xy);
-		console.log('observe()->movement:'+movement);
-	}else{
-    console.log('observe()->actual position is undefine');
-  }
-
-	//receive([ xy[0] , xy[1] ]);
-	if(movement){
-		  window.actualposition = xy;
-	    console.log('observe()-> xy2:'+xy);
-
-	    var a  = xy.split('');
-      console.log('observe()->invoke receive()');
-      console.log('observe()->store:', store.getState());
-      return movement;
-		  //receive([ a[0] , a[1] ],store);
-	}
-  return false;
-}
 
 function validateMove(currentPiecePos, newPos)
 {
@@ -201,39 +339,4 @@ function toUnicode(theString) {
     unicodeString += theUnicode;
   }
   return parseInt(unicodeString);
-}
-
-
-
-export function observe2(coordenated) {
-  console.log('observe2');
-  //setInterval(() => receive([String.fromCharCode(64 + Math.floor(Math.random() * 8)+1),
-	//(Math.floor(Math.random() * 7.5 ) ) + 1 ]), 800);
-	var a = coordenated[0];
-	var b = coordenated[1];
-	coordenated([a,b]);
-
-}
-
-
-//This is the event that process the click event in the square
-//receive the coordenate == x
-export function test(x) {
-
-  console.log('test()');
-	const rootEl = document.getElementById('react-container');
-  console.log('test()->store:', store.getState());
-  return observe(x);
-  //this.props.decrement();
-
-  // this is the rendering of the component by hand
-  // observe((piecePosition,store) =>
-	//   ReactDOM.render(
-  //     <Provider store={store}>
-  //       <Board piecePosition={piecePosition}/>
-  //     </Provider>
-  //     , rootEl),
-  //   x
-  // );
-
 }

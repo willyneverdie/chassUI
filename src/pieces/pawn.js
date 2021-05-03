@@ -10,7 +10,7 @@ const pieceSource = {
   	console.log('moving');
     console.log('props:',props);
 
-    	const item = { id:props.id, code:props.code };
+    	const item = { id:props.id, code:props.code, color:props.color  };
     	return item;
 
   }
@@ -45,7 +45,7 @@ export default class Pawn extends Component {
 						fontSize: 25,
 						fontWeight: 'bold',
 						cursor: 'move'
-					}}> > <span> &#9823; </span> </div>);
+					}}><span> &#9823; </span> </div>);
 		else
 			return connectDragSource(<div className='square-content' style={{
 						opacity: isDragging ? 0.5 : 1,
