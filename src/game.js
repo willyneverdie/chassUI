@@ -13,9 +13,11 @@ export function init_observe(receive) {
 	let x = String.fromCharCode(64 + Math.floor(Math.random() * 8)+1);
 	let y = (Math.floor(Math.random() * 7.5 ) ) + 1;
 
-	window.actualposition = x + y;
+
   console.log('store:', store.getState());
 	//receive([ x , y ], store);
+  //window.actualposition = x + y;
+  window.actualposition = store.getState().boardmove[0] + store.getState().boardmove[1];
   receive(store.getState().boardmove, store);
 
 }
@@ -23,29 +25,37 @@ export function init_observe(receive) {
 
 export function moveKnight(xy) {
   console.log('moveKnight()');
-	console.log('click:'+xy);
+	console.log('moveKnight()->click:'+xy);
+  console.log('moveKnight()->window.actualposition :'+window.actualposition );
 
-	if (window.actualposition != undefined)
+  if (window.actualposition != undefined)
 	{
 		var movement = validateMove(window.actualposition, xy);
-		console.log('movement:'+movement);
+		console.log('moveKnight()->movement:'+movement);
 	}
 
 	//receive([ xy[0] , xy[1] ]);
 	if(movement){
-		window.actualposition = xy;
-	    console.log('xy1:'+xy);
-
+		  window.actualposition = xy;
+	    console.log('moveKnight()->xy1:'+xy);
 	    var a  = xy.split('');
-		test([ a[0] , a[1] ]);
+      //test([ a[0] , a[1] ]);
 	}
+
+  return movement;
+
 }
 
-export function observe(receive,xy) {
+export function observe(xy) {
   console.log('observe()');
 	console.log('observe()->click:'+xy);
+  console.log('observe()->click window.actualposition:'+window.actualposition);
 
-	if (window.actualposition != undefined)
+  //What is the piece been moved?
+
+
+
+  if (window.actualposition != undefined)
 	{
 		var movement = validateMove(window.actualposition, xy);
 		console.log('observe()->movement:'+movement);
@@ -61,8 +71,10 @@ export function observe(receive,xy) {
 	    var a  = xy.split('');
       console.log('observe()->invoke receive()');
       console.log('observe()->store:', store.getState());
-		  receive([ a[0] , a[1] ],store);
+      return movement;
+		  //receive([ a[0] , a[1] ],store);
 	}
+  return false;
 }
 
 function validateMove(currentPiecePos, newPos)
@@ -175,7 +187,7 @@ export function test(x) {
   console.log('test()');
 	const rootEl = document.getElementById('react-container');
   console.log('test()->store:', store.getState());
-
+  return observe(x);
   //this.props.decrement();
 
   // this is the rendering of the component by hand

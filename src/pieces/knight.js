@@ -8,8 +8,9 @@ const knightSource = {
   beginDrag(props, monitor, component) {
 
   	console.log('moving');
+    console.log('props:',props);
 
-    	const item = { id: props.id };
+    	const item = { id:props.id, code:props.code, color:props.color };
     	return item;
 
   }
@@ -22,12 +23,13 @@ function collect(connect, monitor) {
   }
 }
 
-@DragSource(ItemTypes.KNIGHT, knightSource, collect)
+@DragSource(ItemTypes.CHESSPIECE, knightSource, collect)
 export default class Knight extends Component {
 
 	static propTypes = {
 	    connectDragSource: PropTypes.func.isRequired,
-	    isDragging: PropTypes.bool.isRequired
+	    isDragging: PropTypes.bool.isRequired,
+      code: PropTypes.string
 	  };
 
 

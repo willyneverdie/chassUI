@@ -3,16 +3,85 @@ import PropTypes from 'prop-types';
 import Square from './Square';
 
 import { moveKnight } from './Game';
+import { validatePawnMove, validateRookMove, validateBishopMove, validateQueenMove, validateKingMove } from './PieceValidations';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
+//Redux
+import { connect } from 'react-redux';
+import {Increment,Decrement,Move} from './actions/Action';
 
 
 
  const squareTarget = {
-	  drop(props) {
-	    moveKnight(props.coord);
+	  drop(props, monitor) {
+      console.log('boardSquare drop',props);
+      // Obtain the dragged item
+      const item = monitor.getItem();
+      console.log("Item:",item);
+      console.log("Item:",item.color);
+      const code = item.code;
+      //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
+      switch (code) {
+        case "kn":
+            {
+              console.log('knight');
+              if(moveKnight(props.coord)){
+                props.move(props.coord);
+              }
+            };
+            break;
+        case "p":
+            console.log("pawn");
+            if(validatePawnMove(props.coord, item.color )){
+              console.log("pawn validated");
+              props.move(props.coord);
+            }
+
+            break;
+        case "r":
+            console.log("rook");
+            if(validateRookMove(props.coord)){
+              console.log("rook validated");
+              props.move(props.coord);
+            }
+            break;
+        case "q":
+            console.log("queen");
+            if(validateQueenMove(props.coord)){
+              console.log("queen validated");
+              props.move(props.coord);
+            }
+            break;
+        case "ki":
+            console.log("king");
+            if(validateKingMove(props.coord)){
+              console.log("king validated");
+              props.move(props.coord);
+            }
+            break;
+        case "b":
+            console.log("bishop");
+            if(validateBishopMove(props.coord)){
+              console.log("bishop validated");
+              props.move(props.coord);
+            }
+            break;
+        default:
+      }
+
+
+
 	  }
   };
+
+  const mapDistpatchToProps= (dispatch)=>{
+    return{
+      move:(mov)=>dispatch(Move(mov))
+    }
+  }
 
 
 function collect(connect, monitor) {
@@ -22,21 +91,23 @@ function collect(connect, monitor) {
   };
 }
 
-@DropTarget(ItemTypes.KNIGHT, squareTarget, collect)
-export default class BoardSquare extends Component {
-  
+//@DropTarget(ItemTypes.KNIGHT, squareTarget, collect)
+class BoardSquare extends Component {
+
   static propTypes = {
     coord: PropTypes.string,
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
-    color: PropTypes.bool
+    getItem: PropTypes.func.isRequired,
+    color: PropTypes.bool,
+    piece: PropTypes.string
   };
 
 
 
 render() {
     //const { x, y } = this.props;
-    
+
     const { color, coord, connectDropTarget, isOver } = this.props;
     const fill = color ? 'green' : 'white';
     const stroke = color ? 'white' : 'green';
@@ -50,7 +121,7 @@ render() {
 		        width: '100%',
 		        height: '100%'
 		      }}>
-		 		
+
 		      <Square color={color} coord={coord}>
 		        {this.props.children}
 		      </Square>
@@ -74,3 +145,6 @@ render() {
 
 
 }
+
+BoardSquare = DropTarget(ItemTypes.CHESSPIECE, squareTarget, collect)(BoardSquare);
+export default connect(null,mapDistpatchToProps)(BoardSquare);

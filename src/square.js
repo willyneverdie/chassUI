@@ -6,9 +6,15 @@ import { observe, test} from './Game';
 import { connect } from 'react-redux';
 import {Increment,Decrement,Move} from './actions/Action';
 
-const mapDistpatchToProps= (dispatch)=>{
+const mapDistpatchToProps = (dispatch)=>{
   return{
     move:(mov)=>dispatch(Move(mov)),
+  }
+}
+
+const mapStateToProps = (state) => {
+  return{
+    move: state.boardmove
   }
 }
 
@@ -25,30 +31,36 @@ class Square extends Component {
 	    	backgroundColor: fill,
 	    	key: key
 	        }}
-	        onClick={() => this.handleSquareClick(coord)}>
+	        onClick={() => this.handleSquareClick(coord)}
+          onMouseDown={() => this.handleSquareMouseDownClick(coord)}>
 	        {this.props.children}
 	    </div>
         )
   }
 
-
+  handleSquareMouseDownClick(toX) {
+   window.actualposition = toX;
+   window.originposition = toX;
+   console.log('handleSquareMouseDownClick:',toX);
+  }
 
 	 handleSquareClick(toX) {
 	 	//moveKnight(toX);
 	 	console.log('handleSquareClick:',toX);
     //console.log(this.props.move);
-    this.props.move(toX);
+
+    if(test(toX)){
+        this.props.move(toX);
+    };
 	 	//test(toX);
-
-
-
 	}
 }
 
-export default connect(null,mapDistpatchToProps)(Square);
 
 Square.propTypes = {
   color: PropTypes.bool,
   coord: PropTypes.string,
   pieceColor: PropTypes.string
 };
+
+export default connect(mapStateToProps,mapDistpatchToProps)(Square);

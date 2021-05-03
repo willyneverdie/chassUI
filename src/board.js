@@ -64,16 +64,15 @@ class Board extends Component {
     //const [knightX, knightY] = this.state.piecePos;
 
     //Reading the move from the STORE
-    console.log('Board()->render(props)->store.getState().boardmove:'+store.getState().boardmove);
-    const [knightX, knightY] = store.getState().boardmove;
+    console.log('Board()->render(props)->store.getState().boardmove:',store.getState().boardmove.get("B1"));
+    //const [knightX, knightY] = store.getState().boardmove;
 
     //console.log('Board()->render(props)->knightX, knightY:'+this.props.piecePosition);
     //console.log('Board()->render(state)->knightX, knightY:'+this.state.piecePos);
     const col = ['A','B','C','D','E','F','G','H'];
     const squares = [];
-    const knight = [];
-
-    knight.push( <Knight black/> );
+    //const knight = [];
+    //knight.push( <Knight black/> );
 
     let color = true;
     let piece , piece2;
@@ -91,6 +90,9 @@ class Board extends Component {
                   }
     ];
 
+
+    //let testmap = new Map([[ "B1", <Knight color='white'/> ],[ "B2", <Pawn color='black'/> ]]);
+    //console.log("test map:",testmap.get("G1").props);
 
     let myMap = new Map([
      /* [ "A1", <Rook color='white'/> ],
@@ -130,29 +132,43 @@ class Board extends Component {
     ]);
 
 
-    console.log(myMap);
-    myMap.set(knightX+knightY,<Knight />);
+
+    //myMap.set(knightX+knightY,<Knight code="kn"/>);
+    //myMap.set("B2",<Pawn code="p"/>);
+    //get board from the store
+    myMap = store.getState().boardmove;
+    console.log("myMap:",myMap);
+    //codes for pieces
+    //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
 
     //Fill array with all the squares that in the end form the board
     for (let i = 8; i >= 1; i--) {
       {color = !color}
       for (let j = 1; j <= 8; j++)
       {
-
-
-          if(myMap.has(col[j-1]+i))
-          {
+        if(myMap.has(col[j-1]+i))
                 piece = "tiene";
-          }
         else
                 piece = "";
 
-        squares.push(
-          <BoardSquare color={color} coord={col[j-1]+i} >
-             {myMap.get(col[j-1]+i)}
-          </BoardSquare>
-          )
+          // squares.push(
+          //  <BoardSquare color={color} coord={col[j-1]+i} piece={myMap.get(col[j-1]+i)} >
+          //     {myMap.get(col[j-1]+i)}
+          //  </BoardSquare>
+          //  )
 
+          let nombrePieza = "";
+          if(myMap.get(col[j-1]+i)!= undefined){
+            console.log("tiene valor:"+col[j-1]+i);
+            console.log("valor es:"+myMap.get(col[j-1]+i).props.code);
+            nombrePieza=myMap.get(col[j-1]+i).props.code;
+          }
+
+          squares.push(
+            <BoardSquare color={color} coord={col[j-1]+i} piece={nombrePieza} >
+              {myMap.get(col[j-1]+i)}
+            </BoardSquare>
+        );
           color = !color
 
     }
