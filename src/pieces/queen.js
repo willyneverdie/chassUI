@@ -9,7 +9,7 @@ const pieceSource = {
   	console.log('moving');
     console.log('props:',props);
 
-    	const item = { id:props.id, code:props.code };
+    	const item = { id:props.id, code:props.code, color:props.color  };
     	return item;
 
   }
