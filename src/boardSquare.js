@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Square from './Square';
 
 import { moveKnight } from './Game';
-import { validatePawnMove, validateRookMove, validateBishopMove, validateQueenMove, validateKingMove } from './PieceValidations';
+import { validatePawnMove, validateKnightMove, validateRookMove, validateBishopMove, validateQueenMove, validateKingMove } from './PieceValidations';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 import { DragDropContext } from 'react-dnd';
@@ -28,7 +28,7 @@ import {Increment,Decrement,Move} from './actions/Action';
         case "kn":
             {
               console.log('knight');
-              if(moveKnight(props.coord)){
+              if(validateKnightMove(props.coord, item.color)){
                 props.move(props.coord);
               }
             };
@@ -43,28 +43,28 @@ import {Increment,Decrement,Move} from './actions/Action';
             break;
         case "r":
             console.log("rook");
-            if(validateRookMove(props.coord)){
+            if(validateRookMove(props.coord, item.color)){
               console.log("rook validated");
               props.move(props.coord);
             }
             break;
         case "q":
             console.log("queen");
-            if(validateQueenMove(props.coord)){
+            if(validateQueenMove(props.coord, item.color)){
               console.log("queen validated");
               props.move(props.coord);
             }
             break;
         case "ki":
             console.log("king");
-            if(validateKingMove(props.coord)){
+            if(validateKingMove(props.coord, item.color)){
               console.log("king validated");
               props.move(props.coord);
             }
             break;
         case "b":
             console.log("bishop");
-            if(validateBishopMove(props.coord)){
+            if(validateBishopMove(props.coord, item.color)){
               console.log("bishop validated");
               props.move(props.coord);
             }

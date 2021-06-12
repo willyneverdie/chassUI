@@ -159,8 +159,8 @@ class Board extends Component {
 
           let nombrePieza = "";
           if(myMap.get(col[j-1]+i)!= undefined){
-            console.log("tiene valor:"+col[j-1]+i);
-            console.log("valor es:"+myMap.get(col[j-1]+i).props.code);
+            //console.log("tiene valor:"+col[j-1]+i);
+            //console.log("valor es:"+myMap.get(col[j-1]+i).props.code);
             nombrePieza=myMap.get(col[j-1]+i).props.code;
           }
 
