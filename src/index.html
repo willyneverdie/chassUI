@@ -2,14 +2,19 @@
 <head>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-  
+
 </head>
 
 <body>
 
-<!-- DIVS --> 
-<div id="react-container" class="board-parent"></div>
-<div id="container"></div>
+<!-- DIVS -->
+<div class="grid-container">
+  <div id="react-container" class="board-parent"></div>
+  <div id="clock-container" class="clock-parent green"></div>  
+</div>
+
+
+<div id="container">asdasd</div>
 <div id="root"></div>
 <div id="board" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
@@ -21,11 +26,11 @@
             ev.dataTransfer.setData("text", ev.target.id);
             return true;
          }
-         
+
          function allowDrop(ev){
                ev.preventDefault();
             }
-        
+
         function drop(ev){
            ev.preventDefault();
            var data = ev.dataTransfer.getData("text");
@@ -35,10 +40,10 @@
         }
       </script>
 
-    
+
     <script type="text/javascript" src="bundleWP.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css">
-    
+
 </body>
 
 </html>

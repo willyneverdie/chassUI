@@ -14,11 +14,19 @@ const Decrement = () => {
 }
 
 const Move = (move) => {
-  
+
   return ({
     type:'MOVE',
     payload:move
   })
 }
 
-export {Increment,Decrement,Move};
+const Notation = (move) => {
+
+  return ({
+    type:'write',
+    payload:move
+  })
+}
+
+export {Increment,Decrement,Move, Notation};

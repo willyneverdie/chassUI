@@ -39,7 +39,7 @@ const mapDistpatchToProps= (dispatch)=>{
 class Board extends Component {
 
   static propTypes = {
-    piecePosition: PropTypes.arrayOf(PropTypes.string,PropTypes.number).isRequired,
+    piecePosition: PropTypes.instanceOf(Map).isRequired,
 
   };
 
@@ -60,19 +60,12 @@ class Board extends Component {
 
   render() {
 
-    //const [knightX, knightY] = this.props.piecePosition;
-    //const [knightX, knightY] = this.state.piecePos;
-
     //Reading the move from the STORE
     console.log('Board()->render(props)->store.getState().boardmove:',store.getState().boardmove.get("B1"));
     //const [knightX, knightY] = store.getState().boardmove;
 
-    //console.log('Board()->render(props)->knightX, knightY:'+this.props.piecePosition);
-    //console.log('Board()->render(state)->knightX, knightY:'+this.state.piecePos);
     const col = ['A','B','C','D','E','F','G','H'];
     const squares = [];
-    //const knight = [];
-    //knight.push( <Knight black/> );
 
     let color = true;
     let piece , piece2;
@@ -133,11 +126,10 @@ class Board extends Component {
 
 
 
-    //myMap.set(knightX+knightY,<Knight code="kn"/>);
-    //myMap.set("B2",<Pawn code="p"/>);
     //get board from the store
     myMap = store.getState().boardmove;
     console.log("myMap:",myMap);
+
     //codes for pieces
     //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
 
@@ -177,14 +169,18 @@ class Board extends Component {
     //const counter = useSelector(state => state.boardReducer);
 
     return (
-      <div className='board-parent' key='esf'>
+      <div className='board-parent' key={squares.toString()}>
         {/**/}
         {squares}
       {/*squares[1].props.coord +squares[1].props.color*/}
       {/*myMap.forEach( (val, key) => console.log(key, val) )*/}
       {/*myMap.get("A1")*/}
-
+      <h1>test</h1>
       </div>
+
+
+
+
 
 
 

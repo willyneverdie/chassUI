@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Board from './Board';
+import Jugadas from './jugadas';
+import App from './app';
 //import { observe } from './Observe';
 import { init_observe } from './Game';
 
@@ -30,20 +32,29 @@ const style = {
 }
 
 const rootEl = document.getElementById('react-container');
-
+const rootJugadas = document.getElementById('clock-container');
 
 init_observe((knightPosition,store) =>
   ReactDOM.render(
-
 		<Provider store={store}>
-    		<Board piecePosition={knightPosition} />
+    		<App piecePosition={knightPosition} val="values" />
 		</Provider>,
     rootEl
   )
 );
 
-/*
+//rendering clock and algebraic notacion
+ReactDOM.render(
+	<Provider store={store}>
+			<Jugadas/>
+	</Provider>,
+	rootJugadas
+)
 
+
+
+/*
+/*<Board piecePosition={knightPosition} />
 funct observ
 (
 	funct (knightPosition)

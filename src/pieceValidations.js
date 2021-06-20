@@ -11,6 +11,9 @@ export function validateKingMove(xy, color){
   console.log('validateKingMove()->window.originposition :'+window.originposition );
   console.log('validateKingMove()->color :'+color );
   var movement = false;
+  let isDestTakenVar=isDestTaken(xy);
+  let takingPiece=true;
+  let targetPieceCode="";
 
   let totalColumns = 8;
   let columnsArray = ['A','B','C','D','E','F','G','H'];
@@ -43,23 +46,25 @@ export function validateKingMove(xy, color){
       console.log("validateKingMove es del mismo color? ", isSameColor(color, xy));
       console.log("validateKingMove esta tomado el square? ", isDestTaken(xy));
 
-      if(isDestTaken(xy)){
-        if(isSameColor(color, xy)) return false
+      if(isDestTakenVar){
+        targetPieceCode = getPiece(xy);
+        if(isSameColor(color, xy)) takingPiece = false;
       }
 
-
       //Same column
-      if( oriColumn == desColumn && diffFil == 1) movement = true;
+      if( takingPiece && oriColumn == desColumn && diffFil == 1) movement = true;
 
       //different column
       if( oriColumn != desColumn){
-        if ((diffFil == 0 || diffFil == 1) && (diffCol == 0 || diffCol == 1)) movement = true;
+        if (takingPiece && (diffFil == 0 || diffFil == 1) && (diffCol == 0 || diffCol == 1)) movement = true;
       }
 
 
     }
 
-    return movement;
+    const canMove=movement;
+    return {canMove, isDestTakenVar, targetPieceCode}
+    //return movement;
 
 }
 
@@ -69,7 +74,9 @@ export function validateQueenMove(xy, color){
 	console.log('validateQueenMove()->drop:'+xy);
   console.log('validateQueenMove()->window.originposition :'+window.originposition );
   var movement = false;
-
+  let isDestTakenVar=isDestTaken(xy);
+  let takingPiece=true;
+  let targetPieceCode="";
   let totalColumns = 8;
   let columnsArray = ['A','B','C','D','E','F','G','H'];
 
@@ -100,22 +107,29 @@ export function validateQueenMove(xy, color){
       //valide if target square is taken and if it is, validate diferent color
       console.log("validateMove es del mismo color? ", isSameColor(color, xy));
       console.log("validateMove esta tomado el square? ", isDestTaken(xy));
+      console.log("validateMove que pieza esta en el casillero? ", getPiece(xy));
 
-      if(isDestTaken(xy)){
-        if(isSameColor(color, xy)) return false
+      if(isDestTakenVar){
+        targetPieceCode = getPiece(xy);
+        if(isSameColor(color, xy)) takingPiece = false;
       }
 
-      if( oriColumn != desColumn){
+      if(takingPiece && (oriColumn != desColumn)){
         if (diffCol == diffFil) movement = true;
       }
 
-      if( oriColumn == desColumn ) movement = true;
-      else {
-        if(oriPosicion == desPosicion) movement = true;
+
+      if(takingPiece){
+        if( oriColumn == desColumn ) movement = true;
+        else {
+          if(oriPosicion == desPosicion) movement = true;
+        }
       }
     }
 
-    return movement;
+    const canMove=movement;
+    return {canMove, isDestTakenVar, targetPieceCode}
+    //return movement;
 
 }
 
@@ -127,7 +141,8 @@ export function validateBishopMove(xy, color){
   console.log('validateBishopMove()->window.originposition :'+window.originposition );
   console.log('validateBishopMove()->color :'+color);
   var movement = false;
-
+  let isDestTakenVar=isDestTaken(xy);
+  let takingPiece=true;
   let totalColumns = 8;
   let columnsArray = ['A','B','C','D','E','F','G','H'];
 
@@ -159,20 +174,18 @@ export function validateBishopMove(xy, color){
       console.log("validateMove es del mismo color? ", isSameColor(color, xy));
       console.log("validateMove esta tomado el square? ", isDestTaken(xy));
 
-      if(isDestTaken(xy)){
-        if(isSameColor(color, xy)) return false
+
+      if(isDestTakenVar){
+        if(isSameColor(color, xy)) takingPiece=false;
       }
 
-
-      if( oriColumn != desColumn){
+      if(takingPiece && (oriColumn != desColumn)){
         if (diffCol == diffFil) movement = true;
       }
     }
-
-
-
-    return movement;
-
+    const canMove=movement;
+    return {canMove, isDestTakenVar}
+    //return movement;
 }
 
 
@@ -182,8 +195,8 @@ export function validateRookMove(xy, color){
 	console.log('validateRookMove()->drop:'+xy);
   console.log('validateRookMove()->window.originposition :'+window.originposition );
   var movement = false;
-
-
+  let isDestTakenVar=isDestTaken(xy);
+  let takingPiece=true;
     if (xy != undefined)
   	{
       let oriPosicion = window.originposition.substring(1);
@@ -202,17 +215,19 @@ export function validateRookMove(xy, color){
       console.log("validateRookMove es del mismo color? ", isSameColor(color, xy));
       console.log("validateRookMove esta tomado el square? ", isDestTaken(xy));
 
-      if(isDestTaken(xy)){
-        if(isSameColor(color, xy)) return false
+      if(isDestTakenVar){
+        if(isSameColor(color, xy)) takingPiece = false;
       }
 
-      if(oriColumn == desColumn) movement = true;
+      if(takingPiece && (oriColumn == desColumn)) movement = true;
       else {
         if(oriPosicion == desPosicion) movement = true;
       }
     }
 
-    return movement;
+    const canMove=movement;
+    return {canMove, isDestTakenVar};
+    //return movement;
 
 }
 
@@ -221,6 +236,9 @@ export function validatePawnMove(xy, color) {
 	console.log('validatePawnMove()->drop:'+xy);
   console.log('validatePawnMove()->window.originposition :'+window.originposition );
   var movement = false;
+  let isDestTakenVar=isDestTaken(xy);
+  let takingPiece=true;
+  let targetPieceCode="";
 
   if (xy != undefined)
 	{
@@ -235,34 +253,37 @@ export function validatePawnMove(xy, color) {
     console.log("validatePawnMove->desColumn:"+desColumn);
 
     console.log("el destino tiene pieza? ", isDestTaken(xy));
-
+    console.log("validateMove que pieza esta en el casillero? ", getPiece(xy));
 
   if(color=='white'){
     if(oriPosicion == 2){
       if( (desPosicion == 3 || desPosicion == 4) && (oriColumn === desColumn) ) movement = true;
-      if( (desPosicion == 3 || desPosicion == 4) && (oriColumn !== desColumn) && isDestTaken(xy)) movement = true;
+      if( (desPosicion == 3 || desPosicion == 4) && (oriColumn !== desColumn) && isDestTakenVar) movement = true;
     }
     else {
-      if ( ((desPosicion - oriPosicion == 1) && (oriColumn === desColumn) && !isDestTaken(xy))) movement = true;
-      if ( (desPosicion - oriPosicion == 1) && (oriColumn !== desColumn) && isDestTaken(xy)) movement = true;
+      if ( ((desPosicion - oriPosicion == 1) && (oriColumn === desColumn) && !isDestTakenVar)) movement = true;
+      if ( (desPosicion - oriPosicion == 1) && (oriColumn !== desColumn) && isDestTakenVar) movement = true;
       }
   }
 
   if(color=='black'){
     if(oriPosicion == 7){
       if( (desPosicion == 6 || desPosicion == 5) && (oriColumn === desColumn) ) movement = true;
-      if( (desPosicion == 6 || desPosicion == 5) && (oriColumn !== desColumn) && isDestTaken(xy) ) movement = true;
+      if( (desPosicion == 6 || desPosicion == 5) && (oriColumn !== desColumn) && isDestTakenVar ) movement = true;
     }
     else {
-      if( ( oriPosicion - desPosicion == 1) && (oriColumn === desColumn) && !isDestTaken(xy) ) movement = true;
-      if( ( oriPosicion - desPosicion == 1) && (oriColumn !== desColumn) && isDestTaken(xy) ) movement = true;
+      if( ( oriPosicion - desPosicion == 1) && (oriColumn === desColumn) && !isDestTakenVar ) movement = true;
+      if( ( oriPosicion - desPosicion == 1) && (oriColumn !== desColumn) && isDestTakenVar ) movement = true;
     }
   }
 
 		console.log('validatePawnMove->movement:'+movement);
 	}
 
-  return movement;
+  const canMove=movement;
+  if(isDestTakenVar) targetPieceCode = getPiece(xy);
+  return {canMove, isDestTakenVar, targetPieceCode};
+  //return movement;
 
 }
 
@@ -280,15 +301,16 @@ export function validateKnightMove(xy, color) {
 		console.log('moveKnight()->movement:'+movement);
 	}
 
-	//receive([ xy[0] , xy[1] ]);
-	if(movement){
+	/*if(movement){
 		  window.actualposition = xy;
 	    console.log('moveKnight()->xy1:'+xy);
 	    var a  = xy.split('');
-      //test([ a[0] , a[1] ]);
-	}
+	}*/
 
-  return movement;
+  const canMove = movement;
+  const takingPiece = isDestTaken(xy);
+  return {canMove, takingPiece};
+  // {canMove, takingPiece}
 
 }
 
@@ -322,7 +344,9 @@ function validateMove(currentPiecePos, newPos, color)
   console.log("validateMove esta tomado el square? ", isDestTaken(newPos));
 
   if(isDestTaken(newPos)){
-    if(isSameColor(color, newPos)) return false
+    if(isSameColor(color, newPos)) {
+      return false
+    }
   }
 
 	switch (newPos)
@@ -392,7 +416,27 @@ function toUnicode(theString) {
   return parseInt(unicodeString);
 }
 
-function isDestTaken(dest){
+
+export function getPiece(dest){
+
+  console.log("getPiece.dest;"+dest);
+  //console.log('isDestTaken.store:', store.getState().boardmove);
+
+  let map = new Map(store.getState().boardmove);
+  //console.log("map:",map);
+
+  if(!map.has(dest)) {
+    console.log("casillero destino esta vacio");
+    return false;
+  }
+
+  console.log("casillero destino esta ocupado");
+  console.log("la pieza es:"+map.get(dest).props.code);
+  return map.get(dest).props.code;
+}
+
+
+export function isDestTaken(dest){
 
   console.log("isDestTaken.dest;"+dest);
   console.log('isDestTaken.store:', store.getState().boardmove);
@@ -425,7 +469,7 @@ function isSameColor(color, dest){
   console.log("isSameColor:casillero destino esta ocupado");
   console.log("clave del mapa: ", map.get(dest).props.color);
   const colorDestino = map.get(dest).props.color;
-
+  console.log("isSameColor:"+color+'-'+colorDestino);
   if(color === colorDestino) return true;
 
   return false;

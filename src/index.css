@@ -3,16 +3,31 @@
 }
 
 body {
-    background-color: black;
+    background-color: grey;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
 }
 
 .board-parent{
     display: grid;
-    grid-template-columns:  50px 50px 50px 50px 50px 50px 50px 50px; 
+    grid-template-columns:  50px 50px 50px 50px 50px 50px 50px 50px;
     width: 400px;
     height: 400px;
     background-color: lightgrey;
-     
+
+}
+
+.clock-parent{
+    display: grid;
+    grid-template-columns:  50px 50px 50px 50px ;
+    width: 200px;
+    height: 400px;
+    background-color: lightgrey;
+
 }
 
 .square-box {
@@ -22,7 +37,7 @@ body {
     overflow: hidden;
     margin: 0px;
     border: 0.5px solid black;
-    
+
 }
 
 .square-content {
@@ -31,21 +46,16 @@ left: 9px;
 top:5px;
 padding: 1px;
 display:inline-block;
-    
-    font-size: 27;
+font-size: 27;
 }
 
 span {
 	display:inline-block;
-	
 	font-size: 27;
-
 }
 
 
 .square-box:before{
-    
     display: block;
     padding-top: 100%;
 }
-

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import Square from './Square';
 
 import { moveKnight } from './Game';
-import { validatePawnMove, validateKnightMove, validateRookMove, validateBishopMove, validateQueenMove, validateKingMove } from './PieceValidations';
-import { ItemTypes } from './Constants';
+import { validatePawnMove, validateKnightMove, validateRookMove, validateBishopMove, validateQueenMove, validateKingMove, isDestTaken } from './PieceValidations';
+import { ItemTypes, knightCode, kingCode, queenCode, rookCode, bishopCode, pawnCode } from './Constants';
 import { DropTarget } from 'react-dnd';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 //Redux
 import { connect } from 'react-redux';
-import {Increment,Decrement,Move} from './actions/Action';
+import {Increment,Decrement,Move,Notation} from './actions/Action';
 
 
 
@@ -24,49 +24,68 @@ import {Increment,Decrement,Move} from './actions/Action';
       console.log("Item:",item.color);
       const code = item.code;
       //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
+      //let canMove, isDestTaken;
       switch (code) {
-        case "kn":
+        case knightCode:
             {
               console.log('knight');
-              if(validateKnightMove(props.coord, item.color)){
+              const {canMove, takingPiece} = validateKnightMove(props.coord, item.color);
+              if(canMove){
                 props.move(props.coord);
+                if(takingPiece) props.notation(code+'x'+props.coord.toLowerCase());
+                else props.notation(code+props.coord.toLowerCase());
               }
             };
             break;
-        case "p":
+        case pawnCode:
             console.log("pawn");
-            if(validatePawnMove(props.coord, item.color )){
+            let pawnValidate = validatePawnMove(props.coord, item.color);
+            if(pawnValidate.canMove){
               console.log("pawn validated");
               props.move(props.coord);
+              if(pawnValidate.isDestTakenVar) props.notation(code+'x'+pawnValidate.targetPieceCode+props.coord.toLowerCase());
+              else props.notation(code+props.coord.toLowerCase());
             }
 
             break;
-        case "r":
+        case rookCode:
             console.log("rook");
-            if(validateRookMove(props.coord, item.color)){
+            const {canMove, isDestTaken} = validateRookMove(props.coord, item.color);
+            if(canMove){
               console.log("rook validated");
               props.move(props.coord);
+              if(isDestTaken) props.notation(code+'x'+props.coord.toLowerCase());
+              else props.notation(code+props.coord.toLowerCase());
             }
             break;
-        case "q":
+        case queenCode:
             console.log("queen");
-            if(validateQueenMove(props.coord, item.color)){
+            let queenValidate = validateQueenMove(props.coord, item.color);
+            if(queenValidate.canMove){
               console.log("queen validated");
               props.move(props.coord);
+              if(queenValidate.isDestTakenVar) props.notation(code+'x'+queenValidate.targetPieceCode+props.coord.toLowerCase());
+              else props.notation(code+props.coord.toLowerCase());
             }
             break;
-        case "ki":
+        case kingCode:
             console.log("king");
-            if(validateKingMove(props.coord, item.color)){
+            let kingValidate = validateKingMove(props.coord, item.color);
+            if(kingValidate.canMove){
               console.log("king validated");
               props.move(props.coord);
+              if(kingValidate.isDestTakenVar) props.notation(code+'x'+kingValidate.targetPieceCode+props.coord.toLowerCase());
+              else props.notation(code+props.coord.toLowerCase());
             }
             break;
-        case "b":
+        case bishopCode:
             console.log("bishop");
-            if(validateBishopMove(props.coord, item.color)){
+            let bishopValidate  = validateBishopMove(props.coord, item.color);
+            if(bishopValidate.canMove){
               console.log("bishop validated");
               props.move(props.coord);
+              if(bishopValidate.isDestTaken) props.notation(code+'x'+props.coord.toLowerCase());
+              else props.notation(code+props.coord.toLowerCase());
             }
             break;
         default:
@@ -79,7 +98,8 @@ import {Increment,Decrement,Move} from './actions/Action';
 
   const mapDistpatchToProps= (dispatch)=>{
     return{
-      move:(mov)=>dispatch(Move(mov))
+      move:(mov)=>dispatch(Move(mov)),
+      notation:(mov)=>dispatch(Notation(mov))
     }
   }
 
@@ -98,7 +118,7 @@ class BoardSquare extends Component {
     coord: PropTypes.string,
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
-    getItem: PropTypes.func.isRequired,
+    getItem: PropTypes.func,
     color: PropTypes.bool,
     piece: PropTypes.string
   };
@@ -120,7 +140,7 @@ render() {
 		        position: 'relative',
 		        width: '100%',
 		        height: '100%'
-		      }}>
+		      }} key={key}>
 
 		      <Square color={color} coord={coord}>
 		        {this.props.children}
