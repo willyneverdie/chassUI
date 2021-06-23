@@ -24,68 +24,74 @@ import {Increment,Decrement,Move,Notation} from './actions/Action';
       console.log("Item:",item.color);
       const code = item.code;
       //knight = kn, pawn = p, rook = r,queen = q, king =ki ,bishop = b
-      //let canMove, isDestTaken;
+      //let canMove;
+      //let isDestTakenVar;
       switch (code) {
         case knightCode:
             {
               console.log('knight');
-              const {canMove, takingPiece} = validateKnightMove(props.coord, item.color);
+              let {canMove, isDestTakenVar, targetPieceCode} = validateKnightMove(props.coord, item.color);
               if(canMove){
                 props.move(props.coord);
-                if(takingPiece) props.notation(code+'x'+props.coord.toLowerCase());
-                else props.notation(code+props.coord.toLowerCase());
+                //if(takingPiece) props.notation(code+'x'+props.coord.toLowerCase());
+                //else props.notation(code+props.coord.toLowerCase());
+                updateNotation(isDestTakenVar, code , props.coord, props, targetPieceCode);
               }
             };
             break;
         case pawnCode:
             console.log("pawn");
-            let pawnValidate = validatePawnMove(props.coord, item.color);
-            if(pawnValidate.canMove){
+            var {canMove, isDestTakenVar, targetPieceCode} = validatePawnMove(props.coord, item.color);
+            if(canMove){
               console.log("pawn validated");
               props.move(props.coord);
-              if(pawnValidate.isDestTakenVar) props.notation(code+'x'+pawnValidate.targetPieceCode+props.coord.toLowerCase());
-              else props.notation(code+props.coord.toLowerCase());
+              //if(pawnValidate.isDestTakenVar) props.notation(code+'x'+pawnValidate.targetPieceCode+props.coord.toLowerCase());
+              //else props.notation(code+props.coord.toLowerCase());
+              updateNotation(isDestTakenVar, code , props.coord, props, targetPieceCode);
             }
-
             break;
         case rookCode:
             console.log("rook");
-            const {canMove, isDestTaken} = validateRookMove(props.coord, item.color);
+            var {canMove, isDestTakenVar, targetPieceCode} = validateRookMove(props.coord, item.color);
             if(canMove){
               console.log("rook validated");
               props.move(props.coord);
-              if(isDestTaken) props.notation(code+'x'+props.coord.toLowerCase());
-              else props.notation(code+props.coord.toLowerCase());
+              //if(isDestTaken) props.notation(code+'x'+props.coord.toLowerCase());
+              //else props.notation(code+props.coord.toLowerCase());
+              updateNotation(isDestTakenVar, code , props.coord, props, targetPieceCode);
             }
             break;
         case queenCode:
             console.log("queen");
-            let queenValidate = validateQueenMove(props.coord, item.color);
-            if(queenValidate.canMove){
+            var {canMove, isDestTakenVar, targetPieceCode} = validateQueenMove(props.coord, item.color);
+            if(canMove){
               console.log("queen validated");
               props.move(props.coord);
-              if(queenValidate.isDestTakenVar) props.notation(code+'x'+queenValidate.targetPieceCode+props.coord.toLowerCase());
-              else props.notation(code+props.coord.toLowerCase());
+              //if(isDestTakenVar) props.notation(code+'x'+targetPieceCode+props.coord.toLowerCase());
+              //else props.notation(code+props.coord.toLowerCase());
+              updateNotation(isDestTakenVar, code , props.coord, props, targetPieceCode);
             }
             break;
         case kingCode:
             console.log("king");
-            let kingValidate = validateKingMove(props.coord, item.color);
-            if(kingValidate.canMove){
+            var {canMove, isDestTakenVar, targetPieceCode} = validateKingMove(props.coord, item.color);
+            if(canMove){
               console.log("king validated");
               props.move(props.coord);
-              if(kingValidate.isDestTakenVar) props.notation(code+'x'+kingValidate.targetPieceCode+props.coord.toLowerCase());
-              else props.notation(code+props.coord.toLowerCase());
+              //if(kingValidate.isDestTakenVar) props.notation(code+'x'+kingValidate.targetPieceCode+props.coord.toLowerCase());
+              //else props.notation(code+props.coord.toLowerCase());
+              updateNotation(isDestTakenVar, code , props.coord, props, targetPieceCode);
             }
             break;
         case bishopCode:
             console.log("bishop");
-            let bishopValidate  = validateBishopMove(props.coord, item.color);
-            if(bishopValidate.canMove){
+            var {canMove, isDestTakenVar, targetPieceCode} = validateBishopMove(props.coord, item.color);
+            if(canMove){
               console.log("bishop validated");
               props.move(props.coord);
-              if(bishopValidate.isDestTaken) props.notation(code+'x'+props.coord.toLowerCase());
-              else props.notation(code+props.coord.toLowerCase());
+              //if(bishopValidate.isDestTaken) props.notation(code+'x'+props.coord.toLowerCase());
+              //else props.notation(code+props.coord.toLowerCase());
+              updateNotation(isDestTakenVar, code , props.coord, props, targetPieceCode);
             }
             break;
         default:
@@ -95,6 +101,14 @@ import {Increment,Decrement,Move,Notation} from './actions/Action';
 
 	  }
   };
+
+  const updateNotation = (takingPiece, code , coord, props, targetPieceCode) => {
+    console.log('updateNotation:',takingPiece, code ,props);
+    if(takingPiece)
+      props.notation(code+'x'+targetPieceCode+coord.toLowerCase());
+    else
+      props.notation(code+coord.toLowerCase());
+  }
 
   const mapDistpatchToProps= (dispatch)=>{
     return{

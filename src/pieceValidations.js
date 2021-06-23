@@ -143,6 +143,7 @@ export function validateBishopMove(xy, color){
   var movement = false;
   let isDestTakenVar=isDestTaken(xy);
   let takingPiece=true;
+  let targetPieceCode="";
   let totalColumns = 8;
   let columnsArray = ['A','B','C','D','E','F','G','H'];
 
@@ -176,6 +177,7 @@ export function validateBishopMove(xy, color){
 
 
       if(isDestTakenVar){
+        targetPieceCode = getPiece(xy);
         if(isSameColor(color, xy)) takingPiece=false;
       }
 
@@ -184,7 +186,7 @@ export function validateBishopMove(xy, color){
       }
     }
     const canMove=movement;
-    return {canMove, isDestTakenVar}
+    return {canMove, isDestTakenVar, targetPieceCode}
     //return movement;
 }
 
@@ -197,6 +199,7 @@ export function validateRookMove(xy, color){
   var movement = false;
   let isDestTakenVar=isDestTaken(xy);
   let takingPiece=true;
+  let targetPieceCode="";
     if (xy != undefined)
   	{
       let oriPosicion = window.originposition.substring(1);
@@ -216,17 +219,18 @@ export function validateRookMove(xy, color){
       console.log("validateRookMove esta tomado el square? ", isDestTaken(xy));
 
       if(isDestTakenVar){
+        targetPieceCode = getPiece(xy);
         if(isSameColor(color, xy)) takingPiece = false;
       }
 
       if(takingPiece && (oriColumn == desColumn)) movement = true;
       else {
-        if(oriPosicion == desPosicion) movement = true;
+        if(takingPiece && (oriPosicion == desPosicion)) movement = true;
       }
     }
-
+    console.log("rook movement:", movement);
     const canMove=movement;
-    return {canMove, isDestTakenVar};
+    return {canMove, isDestTakenVar, targetPieceCode};
     //return movement;
 
 }
@@ -308,8 +312,9 @@ export function validateKnightMove(xy, color) {
 	}*/
 
   const canMove = movement;
-  const takingPiece = isDestTaken(xy);
-  return {canMove, takingPiece};
+  const isDestTakenVar = isDestTaken(xy);
+  let targetPieceCode = getPiece(xy);
+  return {canMove, isDestTakenVar, targetPieceCode};
   // {canMove, takingPiece}
 
 }
